@@ -1,158 +1,119 @@
 <style>
-.search-btn {
-    background-color: #fe424d;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem;
-    white-space: nowrap;
+.search-btn{background-color:#fe424d;color:#fff;border-radius:25px;padding:0 1rem;white-space:nowrap}
+.search-btn:hover{background-color:#fe424d;color:#fff}
+.search-btn i{margin-right:.5rem}
+.search-inp{border-radius:25px;padding:.5rem 1.5rem;font-size:.9rem;width:300px}
+.search-form{display:flex;align-items:center;gap:.3rem}
+.search-input-wrapper{position:relative}
+.clear-search{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#777;text-decoration:none;font-size:1.1rem;line-height:1;z-index:2}
+.clear-search:hover{color:#222}
+.search-input-wrapper .search-inp{padding-right:2.3rem}
+.mobile-auth{display:none}
+.mobile-menu{display:none}
+@media(min-width:768px){
+    .search-form{position:absolute;left:50%;transform:translateX(-50%)}
 }
-.search-btn:hover {
-    background-color: #fe424d;
-    color: #fff;
+@media(max-width:1100px) and (min-width:768px){
+    .search-inp{width:220px}
 }
-.search-btn i {
-    margin-right: 0.5rem;
+@media(max-width:900px) and (min-width:768px){
+    .search-inp{width:180px}
+    .search-btn{padding:0 .7rem}
 }
-.search-inp {
-    border-radius: 25px;
-    padding: 0.5rem 1.5rem;
-    font-size: 0.9rem;
-    width: 300px;
+@media(max-width:767px){
+    .navbar{padding:.6rem .5rem}
+    .navbar .container-fluid{display:flex;align-items:center;padding:0}
+    .navbar-brand{flex-shrink:0;margin-right:.5rem}
+    .search-form{position:static;transform:none;flex:1;min-width:0;margin:0;gap:.3rem}
+    .search-input-wrapper{flex:1;min-width:0}
+    .search-inp{width:100%;min-width:0;padding:.5rem .8rem;font-size:.8rem}
+    .search-input-wrapper .search-inp{padding-right:2rem}
+    .clear-search{right:9px;font-size:1rem}
+    .search-btn{padding:.5rem .8rem;margin:0}
+    .search-btn span{display:none}
+    .search-btn i{margin:0}
+    .navbar-toggler{flex-shrink:0;margin-left:.5rem}
+    .navbar-collapse{flex-basis:100%;width:100%}
+    .navbar-collapse .navbar-nav{width:100%}
+    .navbar-collapse .navbar-nav.ms-auto{margin-left:0!important}
+    .desktop-explore{display:none}
+    .desktop-right{display:none!important}
+    .mobile-menu{display:flex;flex-direction:column}
+    .mobile-auth{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.7rem .5rem;border-bottom:1px solid #ddd;background:#fff}
+    .mobile-auth a{font-weight:600;text-decoration:none}
 }
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-@media (min-width: 768px) {
-    .search-form {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-}
-@media (max-width: 1100px) and (min-width: 768px) {
-    .search-inp {
-        width: 220px;
-    }
-}
-@media (max-width: 900px) and (min-width: 768px) {
-    .search-inp {
-        width: 180px;
-    }
-    .search-btn {
-        padding: 0 0.7rem;
-    }
-}
-@media (max-width: 767px) {
-    .navbar {
-        padding: 0.6rem 0.5rem;
-    }
-    .navbar .container-fluid {
-        display: flex;
-        align-items: center;
-        padding: 0;
-    }
-    .navbar-brand {
-        flex-shrink: 0;
-        margin-right: 0.5rem;
-    }
-    .search-form {
-        position: static;
-        transform: none;
-        flex: 1;
-        min-width: 0;
-        margin: 0;
-        gap: 0.3rem;
-    }
-    .search-inp {
-        width: 100%;
-        min-width: 0;
-        padding: 0.5rem 0.8rem;
-        font-size: 0.8rem;
-    }
-    .search-btn {
-        padding: 0.5rem 0.8rem;
-        margin: 0;
-    }
-    .search-btn span {
-        display: none;
-    }
-    .search-btn i {
-        margin: 0;
-    }
-    .navbar-toggler {
-        flex-shrink: 0;
-        margin-left: 0.5rem;
-    }
-    .navbar-collapse {
-        flex-basis: 100%;
-        width: 100%;
-    }
-    .navbar-collapse .navbar-nav {
-        width: 100%;
-    }
-    .navbar-collapse .navbar-nav.ms-auto {
-        margin-left: 0 !important;
-    }
-    .desktop-explore {
-        display: none;
-    }
-}
-.mobile-menu {
-    display: none;
-}
-@media (max-width: 767px) {
-    .mobile-menu {
-        display: flex;
-    }
+@media(min-width:768px){
+    .mobile-auth{display:none!important}
 }
 </style>
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/listings">
             <i class="fa-brands fa-airbnb"></i>
         </a>
+
         <div class="navbar-nav desktop-explore">
             <a class="nav-link" href="/listings">Explore</a>
         </div>
-        <form class="search-form" role="search">
-            <input class="form-control search-inp" type="search" placeholder="Search destinations" aria-label="Search">
+
+        <form class="search-form" action="/listings" method="GET">
+            <div class="search-input-wrapper">
+                <input
+                    class="form-control search-inp"
+                    type="search"
+                    name="search"
+                    value="<%= typeof search !== 'undefined' ? search : '' %>"
+                    placeholder="Search destinations"
+                    aria-label="Search"
+                >
+                <% if(typeof search !== "undefined" && search) { %>
+                    <a href="/listings" class="clear-search" aria-label="Clear search">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                <% } %>
+            </div>
             <button class="btn search-btn" type="submit">
                 <i class="fa-solid fa-magnifying-glass-location"></i>
                 <span>Search</span>
             </button>
         </form>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav mobile-menu">
                 <a class="nav-link" href="/listings">Explore</a>
-            </div>
-            <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/listings/new">Airbnb your home</a>
-                <% if(!currUser) { %>
-                    <a class="nav-link" href="/signup"><b>SignUp</b></a>
-                    <a class="nav-link" href="/login"><b>Log in</b></a>
-                <% } %>
+
                 <% if(currUser) { %>
                     <a class="nav-link" href="/logout"><b>Log out</b></a>
                 <% } %>
             </div>
+
+            <div class="navbar-nav ms-auto desktop-right">
+                <a class="nav-link" href="/listings/new">Airbnb your home</a>
+
+                <div class="desktop-auth">
+                    <% if(!currUser) { %>
+                        <a class="nav-link d-inline-block" href="/signup"><b>SignUp</b></a>
+                        <a class="nav-link d-inline-block" href="/login"><b>Log in</b></a>
+                    <% } %>
+
+                    <% if(currUser) { %>
+                        <a class="nav-link d-inline-block" href="/logout"><b>Log out</b></a>
+                    <% } %>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
-<style>
-.mobile-menu {
-    display: none;
-}
-@media (max-width: 767px) {
-    .desktop-explore {
-        display: none;
-    }
-    .mobile-menu {
-        display: flex;
-    }
-}
-</style>
+
+<% if(!currUser) { %>
+    <div class="mobile-auth">
+        <a href="/signup" class="btn btn-outline-dark btn-sm">Sign Up</a>
+        <a href="/login" class="btn btn-dark btn-sm">Log in</a>
+    </div>
+<% } %>

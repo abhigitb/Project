@@ -1,4 +1,11 @@
 <% layout("/layouts/boilerplate") %>
+<% if(!currUser) { %>
+    <div class="mobile-auth">
+        <span>Want to book this stay?</span>
+        <a href="/login">Log in</a>
+        <a href="/signup">Sign up</a>
+    </div>
+<% } %>
 <script>
   const mapToken = "<%= mapToken %>"
   const listing = <%- JSON.stringify(listing) %>;
@@ -84,19 +91,29 @@
 
     <% if(listing.reviews.length > 0) { %>
     <div class="row">
-      <h4>All Reviews</h4>
-      <% for(review of listing.reviews) { %>
-        <div class="card col-5 ms-2 mb-2">
-          <div class="card-body">
-            <h5 class="card-title">@<%= review.author.username %></h5>
-            <p class="starability-result" data-rating="<%= review.rating %>"></p>
-            <p class="card-text"><%= review.comment %></p>
-          </div>
-          <form class="mb-3" method="POST" action="/listings/<%= listing._id%>/reviews/<%= review._id %>?_method=DELETE">
-            <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
+     <h3>All Reviews</h3>
+    <div class="reviews-container">
+    <% for(let review of listing.reviews) { %>
+        <div class="review-card">
+            <h5>@<%= review.author.username %></h5>
+            <p class="review-stars">
+                <% for(let i = 1; i <= 5; i++) { %>
+                    <% if(i <= review.rating) { %>
+                        <span>★</span>
+                    <% } else { %>
+                        <span class="empty-star">★</span>
+                    <% } %>
+                <% } %>
+            </p>
+            <p class="review-comment"><%= review.comment %></p>
+            <% if(currUser && review.author._id.toString() === currUser._id.toString()) { %>
+                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            <% } %>
         </div>
-        <% } %>
+    <% } %>
+    </div>
       </div>
       <% } %>
   </div>

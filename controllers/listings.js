@@ -1,13 +1,26 @@
-const { Query } = require("mongoose");
 const Listing = require("../models/listing");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({accessToken: mapToken});
 
-module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", {allListings});
-}
+module.exports.index = async (req,res) => {
+    const {search} = req.query;
+    let allListings;
+    if(search && search.trim() !== ""){
+        const searchRegex = new RegExp(search.trim().replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i");
+        allListings = await Listing.find({
+            $or:[
+                {title:searchRegex},
+                {description:searchRegex},
+                {location:searchRegex},
+                {country:searchRegex}
+            ]
+        });
+    }else{
+        allListings = await Listing.find({});
+    }
+    res.render("listings/index.ejs",{allListings,search});
+};
 
 module.exports.renderNewForm = (req, res) => {
     res.render("listings/new.ejs");

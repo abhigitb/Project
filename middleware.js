@@ -64,3 +64,17 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     }
     next();
 }
+
+module.exports.isReviewAuthor = async (req,res,next) => {
+    const {id,reviewId} = req.params;
+    const review = await Review.findById(reviewId);
+    if(!review){
+        req.flash("error","Review does not exist!");
+        return res.redirect(`/listings/${id}`);
+    }
+    if(!review.author.equals(req.user._id)){
+        req.flash("error","You don't have permission to delete this review!");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
+};
