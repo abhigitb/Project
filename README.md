@@ -4,7 +4,7 @@ Wanderer is a full-stack accommodation listing web application inspired by Airbn
 
 ## 🌐 Live Demo
 
-[Live Website]((https://project-zuhx.onrender.com))
+[Live Website](https://project-zuhx.onrender.com)
 
 ## ✨ Features
 
