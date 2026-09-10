@@ -1,11 +1,4 @@
 <% layout("/layouts/boilerplate") %>
-<% if(!currUser) { %>
-    <div class="mobile-auth">
-        <span>Want to book this stay?</span>
-        <a href="/login">Log in</a>
-        <a href="/signup">Sign up</a>
-    </div>
-<% } %>
 <script>
   const mapToken = "<%= mapToken %>"
   const listing = <%- JSON.stringify(listing) %>;
